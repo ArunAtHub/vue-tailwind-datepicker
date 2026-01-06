@@ -1470,10 +1470,12 @@ const St = Object.fromEntries(
   "betweenRangeClasses"
 ), eo = Symbol("datepickerClasses"), to = Symbol("atMouseOver"), oo = Symbol("setToToday"), no = Symbol("setToTomorrow"), ao = Symbol("setToThisWeekend"), ro = Symbol("setToThisWeek"), so = Symbol("setToThisMonth"), lo = Symbol("setToThisYear"), uo = Symbol("setToCustomShortcut"), $n = {
   key: 0,
-  class: "relative w-full border-t border-b-0 sm:border-t-0 sm:border-b lg:border-b-0 lg:border-r border-black/10 order-last sm:order-0 dark:border-vtd-secondary-700 sm:mt-1 lg:mr-1 sm:mb-1 lg:mb-0 sm:mx-1 lg:mx-0 sm:w-auto"
+  class: "relative w-full border-t border-b-0 sm:border-t-0 sm:border-b lg:border-b-0 lg:border-r border-black/10 order-last sm:order-0 dark:border-vtd-secondary-700 sm:mt-1 lg:mr-1 sm:mb-1 lg:mb-0 sm:mx-1 lg:mx-0 sm:w-auto",
+  style: { display: "flex" }
 }, _n = {
   key: 0,
-  class: "grid grid-cols-2 sm:grid-cols-3 gap-1 lg:block w-full mt-1.5 sm:mt-0 sm:mb-1.5 lg:mb-0"
+  class: "grid grid-cols-2 sm:grid-cols-3 gap-1 lg:block w-full mt-1.5 sm:mt-0 sm:mb-1.5 lg:mb-0",
+  style: { display: "flex", "flex-direction": "column", "justify-content": "space-around" }
 }, Mn = ["onClick", "textContent"], Sn = {
   key: 1,
   class: "grid grid-cols-2 sm:grid-cols-3 gap-1 lg:block w-full mt-1.5 sm:mt-0 sm:mb-1.5 lg:mb-0"
