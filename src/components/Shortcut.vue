@@ -63,6 +63,7 @@ const withShortcut = computed(() => {
     <ol
       v-else
       class="grid grid-cols-2 sm:grid-cols-3 gap-1 lg:block w-full mt-1.5 sm:mt-0 sm:mb-1.5 lg:mb-0"
+      style=" display: flex; flex-direction: column; justify-content: space-around;"
     >
       <li>
         <a
