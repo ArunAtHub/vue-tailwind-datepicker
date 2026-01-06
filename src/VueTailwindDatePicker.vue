@@ -1596,7 +1596,7 @@ defineExpose({ clearPicker, resetSessionData })
               <div v-if="!props.autoApply">
                 <div class="pt-4 border-t border-black/[.1]">
                   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:flex justify-end gap-4">
-                    <label for="check-morning" class="item text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
+                    <label for="check-morning" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
                         type="checkbox" 
                         name="morning" 
@@ -1605,7 +1605,7 @@ defineExpose({ clearPicker, resetSessionData })
                       >
                       <span>Show Morning</span>
                     </label>
-                    <label for="check-afternoon" class="item text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
+                    <label for="check-afternoon" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
                         type="checkbox" 
                         name="afternoon" 
@@ -1614,7 +1614,7 @@ defineExpose({ clearPicker, resetSessionData })
                       >                      
                       <span>Show Afternoon</span>
                     </label>
-                    <label for="check-evening" class="item frank text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
+                    <label for="check-evening" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
                         type="checkbox" 
                         name="evening" 
@@ -1623,7 +1623,7 @@ defineExpose({ clearPicker, resetSessionData })
                       >                      
                       <span>Show Evening</span>
                     </label>
-                    <label for="check-night" class="item text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
+                    <label for="check-night" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
                         type="checkbox" 
                         name="night" 

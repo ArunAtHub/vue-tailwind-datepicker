@@ -1750,16 +1750,16 @@ const Hn = ["disabled", "placeholder"], Un = { class: "absolute inset-y-0 right-
   class: "relative w-full md:w-1/2 lg:w-80 overflow-hidden mt-3 sm:mt-0 sm:ml-2"
 }, ta = { class: "px-0.5 sm:px-2" }, oa = { key: 0 }, na = { class: "pt-4 border-t border-black/[.1]" }, aa = { class: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:flex justify-end gap-4" }, ra = {
   for: "check-morning",
-  class: "item text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
+  class: "item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
 }, sa = {
   for: "check-afternoon",
-  class: "item text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
+  class: "item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
 }, la = {
   for: "check-evening",
-  class: "item frank text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
+  class: "item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
 }, ua = {
   for: "check-night",
-  class: "item text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
+  class: "item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]"
 }, ia = { class: "mt-4 sm:flex sm:flex-row-reverse" }, da = ["disabled", "onClick", "textContent"], ca = {
   key: 1,
   class: "sm:hidden"
@@ -1827,7 +1827,7 @@ const Hn = ["disabled", "placeholder"], Un = { class: "absolute inset-y-0 right-
       night: ((xt = t.sessionValue) == null ? void 0 : xt.night) || !1
     });
     Ze(m, (p) => {
-      console.log("sessionData changed:", p), u("update:sessionValue", { ...p });
+      u("update:sessionValue", { ...p });
     }, { deep: !0 }), Ze(() => t.sessionValue, (p) => {
       p && (m.morning = p.morning, m.afternoon = p.afternoon, m.evening = p.evening, m.night = p.night);
     }, { deep: !0 });
@@ -2147,7 +2147,7 @@ const Hn = ["disabled", "placeholder"], Un = { class: "absolute inset-y-0 right-
         h.value = [p], I();
     }
     function ne(p) {
-      if (console.log("update:sessionValue", { ...m }), u("update:sessionValue", { ...m }), h.value.length < 1)
+      if (u("update:sessionValue", { ...m }), h.value.length < 1)
         return !1;
       let s;
       if (g()) {
