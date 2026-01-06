@@ -73,7 +73,8 @@ interface Props {
   weekNumber?: boolean
   options?: {
     shortcuts: {
-      today: string
+      today: string,
+      tomorrow: string,
       thisWeekend: string,
       thisWeek: string,
       currentMonth: string,

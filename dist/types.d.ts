@@ -91,6 +91,7 @@ declare const _default: {
             type: PropType<{
                 shortcuts: {
                     today: string;
+                    tomorrow: string;
                     thisWeekend: string;
                     thisWeek: string;
                     currentMonth: string;
@@ -199,6 +200,7 @@ declare const _default: {
         options: {
             shortcuts: {
                 today: string;
+                tomorrow: string;
                 thisWeekend: string;
                 thisWeek: string;
                 currentMonth: string;
@@ -307,6 +309,7 @@ declare const _default: {
             type: PropType<{
                 shortcuts: {
                     today: string;
+                    tomorrow: string;
                     thisWeekend: string;
                     thisWeek: string;
                     currentMonth: string;
@@ -399,6 +402,7 @@ declare const _default: {
         options: {
             shortcuts: {
                 today: string;
+                tomorrow: string;
                 thisWeekend: string;
                 thisWeek: string;
                 currentMonth: string;
@@ -504,6 +508,7 @@ declare const _default: {
         type: PropType<{
             shortcuts: {
                 today: string;
+                tomorrow: string;
                 thisWeekend: string;
                 thisWeek: string;
                 currentMonth: string;
@@ -612,6 +617,7 @@ declare const _default: {
     options: {
         shortcuts: {
             today: string;
+            tomorrow: string;
             thisWeekend: string;
             thisWeek: string;
             currentMonth: string;

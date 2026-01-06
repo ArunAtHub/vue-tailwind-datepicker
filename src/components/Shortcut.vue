@@ -45,10 +45,12 @@ const withShortcut = computed(() => {
     v-if="(props.asRange && props.asSingle) || (props.asRange && !props.asSingle)
     "
     class="relative w-full border-t border-b-0 sm:border-t-0 sm:border-b lg:border-b-0 lg:border-r border-black/10 order-last sm:order-0 dark:border-vtd-secondary-700 sm:mt-1 lg:mr-1 sm:mb-1 lg:mb-0 sm:mx-1 lg:mx-0 sm:w-auto"
+    style="display: flex;"
   >
     <ol
       v-if="withShortcut"
       class="grid grid-cols-2 sm:grid-cols-3 gap-1 lg:block w-full mt-1.5 sm:mt-0 sm:mb-1.5 lg:mb-0"
+      style=" display: flex; flex-direction: column; justify-content: space-around;"
     >
       <li v-for="(item, i) in withShortcut" :key="i">
         <a
