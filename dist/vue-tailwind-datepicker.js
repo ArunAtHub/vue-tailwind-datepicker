@@ -2596,7 +2596,7 @@ const Hn = ["disabled", "placeholder"], Un = { class: "absolute inset-y-0 right-
             D("div", _a, [
               D("button", {
                 type: "button",
-                class: "away-apply-picker w-full transition ease-out duration-300 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-vtd-primary-600 font-medium text-white hover:bg-vtd-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vtd-primary-500 sm:ml-3 sm:w-auto sm:text-sm dark:ring-offset-vtd-secondary-800 disabled:cursor-not-allowed",
+                class: "away-apply-picker w-full transition ease-out duration-300 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 tw:bg-orange-500 font-medium tw:text-white hover:tw:bg-orange-600 hover:tw:border-orange-500 hover:text-vtd-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vtd-primary-500 sm:ml-3 sm:w-auto sm:text-sm dark:ring-offset-vtd-secondary-800 disabled:cursor-not-allowed",
                 disabled: t.asSingle ? h.value.length < 1 : h.value.length < 2,
                 onClick: s[10] || (s[10] = (f) => ne()),
                 textContent: le(t.options.footer.apply)
