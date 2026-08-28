@@ -56,7 +56,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToCustomShortcut(item)" v-text="item.label"
+          @click.prevent="setToCustomShortcut(item, close)" v-text="item.label"
         />
       </li>
     </ol>
@@ -69,7 +69,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToToday()"
+          @click.prevent="setToToday(close)"
         >
           {{ props.i18n.today }}
         </a>
@@ -87,7 +87,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToTomorrow()"
+          @click.prevent="setToTomorrow(close)"
         >
           {{ props.i18n.tomorrow }}
         </a>
@@ -96,7 +96,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisWeekend()"
+          @click.prevent="setToThisWeekend(close)"
         >
           {{ props.i18n.thisWeekend }}
         </a>
@@ -105,7 +105,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisWeek()"
+          @click.prevent="setToThisWeek(close)"
         >
           {{ props.i18n.thisWeek }}
         </a>
@@ -114,7 +114,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisMonth()"
+          @click.prevent="setToThisMonth(close)"
         >
           {{ props.i18n.currentMonth }}
         </a>
@@ -123,7 +123,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisYear()"
+          @click.prevent="setToThisYear(close)"
         >
           {{ props.i18n.thisYear }}
         </a>

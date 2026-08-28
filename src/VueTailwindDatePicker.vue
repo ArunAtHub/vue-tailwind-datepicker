@@ -262,6 +262,8 @@ function setToToday(close?: (ref?: Ref | HTMLElement) => void) {
 
   emitShortcut(s, e)
   resetSessionData()
+  if (close)
+    close()
 }
 
 const weeks = computed(() => datepicker.value.weeks)
@@ -735,6 +737,8 @@ function setDate(date: Dayjs, close?: (ref?: Ref | HTMLElement) => void) {
         const end = e.format(props.formatter.date)
         emitRangeValue(start, end)
         force()
+        if (close)
+          close()
       }
     }
     else {
@@ -1254,6 +1258,7 @@ function setToThisWeekend(close?: (ref?: Ref | HTMLElement) => void) {
   const s = saturday.format(props.formatter.date);
   const e = sunday.format(props.formatter.date);
   emitShortcut(s, e);
+  if (close) close();
 }
 
 function setToThisWeek(close?: (ref?: Ref | HTMLElement) => void) {
@@ -1264,6 +1269,7 @@ function setToThisWeek(close?: (ref?: Ref | HTMLElement) => void) {
   const s = sunday.format(props.formatter.date);
   const e = saturday.format(props.formatter.date);
   emitShortcut(s, e);
+  if (close) close();
 }
 
 function setToTomorrow(close?: (ref?: Ref | HTMLElement) => void) {
@@ -1271,12 +1277,16 @@ function setToTomorrow(close?: (ref?: Ref | HTMLElement) => void) {
   const e = dayjs().add(1, 'day').format(props.formatter.date)
 
   emitShortcut(s, e)
+  if (close)
+    close()
 }
 
 function setToThisMonth(close?: (ref?: Ref | HTMLElement) => void) {
   const s = dayjs().date(1).format(props.formatter.date)
   const e = dayjs().date(dayjs().daysInMonth()).format(props.formatter.date)
   emitShortcut(s, e)
+  if (close)
+    close()
 }
 
 function setToThisYear(close?: (ref?: Ref | HTMLElement) => void) {
@@ -1286,6 +1296,7 @@ function setToThisYear(close?: (ref?: Ref | HTMLElement) => void) {
   const s = startOfYear.format(props.formatter.date);
   const e = endOfYear.format(props.formatter.date);
   emitShortcut(s, e);
+  if (close) close();
 }
 
 function setToCustomShortcut(
@@ -1297,6 +1308,8 @@ function setToCustomShortcut(
   const e = dayjs(dd).format(props.formatter.date)
 
   emitShortcut(s, e)
+  if (close)
+    close()
 }
 
 watch(
@@ -1557,16 +1570,8 @@ defineExpose({ clearPicker, resetSessionData })
               <div class="flex flex-wrap lg:flex-nowrap">
                 <VtdShortcut v-if="props.shortcuts" :shortcuts="props.shortcuts" :as-range="asRange()"
                   :as-single="props.asSingle" :i18n="shortcutI18n" :close="close" />
-                <div class="relative flex flex-wrap sm:flex-nowrap p-1 w-full">
-                  <div v-if="asRange() && !props.asSingle"
-                    class="hidden h-full absolute inset-0 sm:flex justify-center items-center">
-                    <div class="h-full border-r border-black/[.1] dark:border-vtd-secondary-700/[1]" />
-                  </div>
-                  <div class="relative" :class="{
-                    'mb-3 sm:mb-0 sm:mr-2 w-full md:w-1/2 lg:w-80':
-                      asRange() && !props.asSingle,
-                    'w-full': !asRange() && props.asSingle,
-                  }">
+                <div class="relative p-1 w-full">
+                  <div class="relative w-full lg:w-80">
                     <VtdHeader :panel="panel.previous" :calendar="calendar.previous" />
                     <div class="px-0.5 sm:px-2">
                       <VtdMonth v-show="panel.previous.month" :months="months"
@@ -1576,21 +1581,6 @@ defineExpose({ clearPicker, resetSessionData })
                       <div v-show="panel.previous.calendar">
                         <VtdWeek :weeks="weeks" />
                         <VtdCalendar :calendar="calendar.previous" :weeks="weeks" :as-range="asRange()"
-                          :week-number="weekNumber" @update-date="(date) => setDate(date, close)" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div v-if="asRange() && !props.asSingle"
-                    class="relative w-full md:w-1/2 lg:w-80 overflow-hidden mt-3 sm:mt-0 sm:ml-2">
-                    <VtdHeader as-prev-or-next :panel="panel.next" :calendar="calendar.next" />
-                    <div class="px-0.5 sm:px-2">
-                      <VtdMonth v-show="panel.next.month" :months="months" @update-month="calendar.next.setMonth" />
-                      <VtdYear v-show="panel.next.year" as-prev-or-next :years="calendar.next.years()"
-                        @update-year="calendar.next.setYear" />
-                      <div v-show="panel.next.calendar">
-                        <VtdWeek :weeks="weeks" />
-                        <VtdCalendar as-prev-or-next :calendar="calendar.next" :weeks="weeks" :as-range="asRange()"
                           :week-number="weekNumber" @update-date="(date) => setDate(date, close)" />
                       </div>
                     </div>
@@ -1606,6 +1596,7 @@ defineExpose({ clearPicker, resetSessionData })
                         name="morning" 
                         id="check-morning"
                         v-model="sessionData.morning"
+                        @change="close()"
                       >
                       <span>{{ sessionLabels.morning }}</span>
                     </label>
@@ -1615,6 +1606,7 @@ defineExpose({ clearPicker, resetSessionData })
                         name="afternoon" 
                         id="check-afternoon"
                         v-model="sessionData.afternoon"
+                        @change="close()"
                       >                      
                       <span>{{ sessionLabels.afternoon }}</span>
                     </label>
@@ -1624,6 +1616,7 @@ defineExpose({ clearPicker, resetSessionData })
                         name="evening" 
                         id="check-evening"
                         v-model="sessionData.evening"
+                        @change="close()"
                       >                      
                       <span>{{ sessionLabels.evening }}</span>
                     </label>
@@ -1633,6 +1626,7 @@ defineExpose({ clearPicker, resetSessionData })
                         name="night" 
                         id="check-night"
                         v-model="sessionData.night"
+                        @change="close()"
                       >                      
                       <span>{{ sessionLabels.night }}</span>
                     </label>
@@ -1640,7 +1634,7 @@ defineExpose({ clearPicker, resetSessionData })
                   <div class="mt-4 sm:flex sm:flex-row-reverse">
                     <button type="button"
                       class="mt-3 away-cancel-picker w-full cursor-pointer px-4 py-2 text-vtd-blue bg-white inline-flex justify-center rounded-md border border-vtd-orange text-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" 
-                      @click="setToToday()" 
+                      @click="setToToday(close)" 
                       v-text="clearLabel"
                     ></button>
                   </div>
@@ -1667,14 +1661,8 @@ defineExpose({ clearPicker, resetSessionData })
       <div class="flex flex-wrap lg:flex-nowrap">
         <VtdShortcut v-if="props.shortcuts" :shortcuts="props.shortcuts" :as-range="asRange()" :as-single="props.asSingle"
           :i18n="shortcutI18n" />
-        <div class="relative flex flex-wrap sm:flex-nowrap p-1 w-full">
-          <div v-if="asRange() && !props.asSingle"
-            class="hidden h-full absolute inset-0 sm:flex justify-center items-center">
-            <div class="h-full border-r border-black/[.1] dark:border-vtd-secondary-700/[1]" />
-          </div>
-          <div class="relative w-full lg:w-80" :class="{
-            'mb-3 sm:mb-0 sm:mr-2 md:w-1/2': asRange() && !props.asSingle,
-          }">
+        <div class="relative p-1 w-full">
+          <div class="relative w-full lg:w-80">
             <VtdHeader :panel="panel.previous" :calendar="calendar.previous" />
             <div class="px-0.5 sm:px-2">
               <VtdMonth v-show="panel.previous.month" :months="months" @update-month="calendar.previous.setMonth" />
@@ -1684,21 +1672,6 @@ defineExpose({ clearPicker, resetSessionData })
                 <VtdWeek :weeks="weeks" />
                 <VtdCalendar :calendar="calendar.previous" :weeks="weeks" :as-range="asRange()" :week-number="weekNumber"
                   @update-date="(date) => setDate(date)" />
-              </div>
-            </div>
-          </div>
-
-          <div v-if="asRange() && !props.asSingle"
-            class="relative w-full md:w-1/2 lg:w-80 overflow-hidden mt-3 sm:mt-0 sm:ml-2">
-            <VtdHeader as-prev-or-next :panel="panel.next" :calendar="calendar.next" />
-            <div class="px-0.5 sm:px-2">
-              <VtdMonth v-show="panel.next.month" :months="months" @update-month="calendar.next.setMonth" />
-              <VtdYear v-show="panel.next.year" as-prev-or-next :years="calendar.next.years()"
-                @update-year="calendar.next.setYear" />
-              <div v-show="panel.next.calendar">
-                <VtdWeek :weeks="weeks" />
-                <VtdCalendar as-prev-or-next :calendar="calendar.next" :weeks="weeks" :as-range="asRange()"
-                  :week-number="weekNumber" @update-date="(date) => setDate(date)" />
               </div>
             </div>
           </div>
