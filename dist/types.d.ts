@@ -89,32 +89,32 @@ declare const _default: {
         };
         options: {
             type: PropType<{
-                shortcuts: {
-                    today: string;
-                    tomorrow: string;
-                    thisWeekend: string;
-                    thisWeek: string;
-                    currentMonth: string;
-                    thisYear: string;
+                shortcuts?: {
+                    today?: string;
+                    tomorrow?: string;
+                    thisWeekend?: string;
+                    thisWeek?: string;
+                    currentMonth?: string;
+                    thisYear?: string;
                 };
-                footer: {
-                    apply: string;
-                    cancel: string;
+                footer?: {
+                    apply?: string;
+                    cancel?: string;
+                };
+                session?: {
+                    morning?: string;
+                    afternoon?: string;
+                    evening?: string;
+                    night?: string;
                 };
             }>;
             default: () => {
-                shortcuts: {
-                    today: string;
-                    tomorrow: string;
-                    thisWeekend: string;
-                    thisWeek: string;
-                    currentMonth: string;
-                    thisYear: string;
-                };
+                shortcuts: {};
                 footer: {
                     apply: string;
                     cancel: string;
                 };
+                session: {};
             };
         };
         modelValue: {
@@ -143,7 +143,7 @@ declare const _default: {
             };
         };
     }>> & Readonly<{
-        "onUpdate:modelValue"?: ((value: string | string[] | Dayjs[] | Record<string, string>) => any) | undefined;
+        "onUpdate:modelValue"?: ((value: string | string[] | Record<string, string> | Dayjs[]) => any) | undefined;
         "onUpdate:sessionValue"?: ((value: {
             morning: boolean;
             afternoon: boolean;
@@ -162,7 +162,7 @@ declare const _default: {
         clearPicker: () => void;
         resetSessionData: () => void;
     }, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {
-        "update:modelValue": (value: string | string[] | Dayjs[] | Record<string, string>) => void;
+        "update:modelValue": (value: string | string[] | Record<string, string> | Dayjs[]) => void;
         "update:sessionValue": (value: {
             morning: boolean;
             afternoon: boolean;
@@ -198,17 +198,23 @@ declare const _default: {
         startFrom: Date;
         weekdaysSize: string;
         options: {
-            shortcuts: {
-                today: string;
-                tomorrow: string;
-                thisWeekend: string;
-                thisWeek: string;
-                currentMonth: string;
-                thisYear: string;
+            shortcuts?: {
+                today?: string;
+                tomorrow?: string;
+                thisWeekend?: string;
+                thisWeek?: string;
+                currentMonth?: string;
+                thisYear?: string;
             };
-            footer: {
-                apply: string;
-                cancel: string;
+            footer?: {
+                apply?: string;
+                cancel?: string;
+            };
+            session?: {
+                morning?: string;
+                afternoon?: string;
+                evening?: string;
+                night?: string;
             };
         };
         modelValue: [Date, Date] | {
@@ -307,32 +313,32 @@ declare const _default: {
         };
         options: {
             type: PropType<{
-                shortcuts: {
-                    today: string;
-                    tomorrow: string;
-                    thisWeekend: string;
-                    thisWeek: string;
-                    currentMonth: string;
-                    thisYear: string;
+                shortcuts?: {
+                    today?: string;
+                    tomorrow?: string;
+                    thisWeekend?: string;
+                    thisWeek?: string;
+                    currentMonth?: string;
+                    thisYear?: string;
                 };
-                footer: {
-                    apply: string;
-                    cancel: string;
+                footer?: {
+                    apply?: string;
+                    cancel?: string;
+                };
+                session?: {
+                    morning?: string;
+                    afternoon?: string;
+                    evening?: string;
+                    night?: string;
                 };
             }>;
             default: () => {
-                shortcuts: {
-                    today: string;
-                    tomorrow: string;
-                    thisWeekend: string;
-                    thisWeek: string;
-                    currentMonth: string;
-                    thisYear: string;
-                };
+                shortcuts: {};
                 footer: {
                     apply: string;
                     cancel: string;
                 };
+                session: {};
             };
         };
         modelValue: {
@@ -361,7 +367,7 @@ declare const _default: {
             };
         };
     }>> & Readonly<{
-        "onUpdate:modelValue"?: ((value: string | string[] | Dayjs[] | Record<string, string>) => any) | undefined;
+        "onUpdate:modelValue"?: ((value: string | string[] | Record<string, string> | Dayjs[]) => any) | undefined;
         "onUpdate:sessionValue"?: ((value: {
             morning: boolean;
             afternoon: boolean;
@@ -400,17 +406,23 @@ declare const _default: {
         startFrom: Date;
         weekdaysSize: string;
         options: {
-            shortcuts: {
-                today: string;
-                tomorrow: string;
-                thisWeekend: string;
-                thisWeek: string;
-                currentMonth: string;
-                thisYear: string;
+            shortcuts?: {
+                today?: string;
+                tomorrow?: string;
+                thisWeekend?: string;
+                thisWeek?: string;
+                currentMonth?: string;
+                thisYear?: string;
             };
-            footer: {
-                apply: string;
-                cancel: string;
+            footer?: {
+                apply?: string;
+                cancel?: string;
+            };
+            session?: {
+                morning?: string;
+                afternoon?: string;
+                evening?: string;
+                night?: string;
             };
         };
         modelValue: [Date, Date] | {
@@ -506,32 +518,32 @@ declare const _default: {
     };
     options: {
         type: PropType<{
-            shortcuts: {
-                today: string;
-                tomorrow: string;
-                thisWeekend: string;
-                thisWeek: string;
-                currentMonth: string;
-                thisYear: string;
+            shortcuts?: {
+                today?: string;
+                tomorrow?: string;
+                thisWeekend?: string;
+                thisWeek?: string;
+                currentMonth?: string;
+                thisYear?: string;
             };
-            footer: {
-                apply: string;
-                cancel: string;
+            footer?: {
+                apply?: string;
+                cancel?: string;
+            };
+            session?: {
+                morning?: string;
+                afternoon?: string;
+                evening?: string;
+                night?: string;
             };
         }>;
         default: () => {
-            shortcuts: {
-                today: string;
-                tomorrow: string;
-                thisWeekend: string;
-                thisWeek: string;
-                currentMonth: string;
-                thisYear: string;
-            };
+            shortcuts: {};
             footer: {
                 apply: string;
                 cancel: string;
             };
+            session: {};
         };
     };
     modelValue: {
@@ -560,7 +572,7 @@ declare const _default: {
         };
     };
 }>> & Readonly<{
-    "onUpdate:modelValue"?: ((value: string | string[] | Dayjs[] | Record<string, string>) => any) | undefined;
+    "onUpdate:modelValue"?: ((value: string | string[] | Record<string, string> | Dayjs[]) => any) | undefined;
     "onUpdate:sessionValue"?: ((value: {
         morning: boolean;
         afternoon: boolean;
@@ -579,7 +591,7 @@ declare const _default: {
     clearPicker: () => void;
     resetSessionData: () => void;
 }, {}, {}, {}, ComponentOptionsMixin, ComponentOptionsMixin, {
-    "update:modelValue": (value: string | string[] | Dayjs[] | Record<string, string>) => void;
+    "update:modelValue": (value: string | string[] | Record<string, string> | Dayjs[]) => void;
     "update:sessionValue": (value: {
         morning: boolean;
         afternoon: boolean;
@@ -615,17 +627,23 @@ declare const _default: {
     startFrom: Date;
     weekdaysSize: string;
     options: {
-        shortcuts: {
-            today: string;
-            tomorrow: string;
-            thisWeekend: string;
-            thisWeek: string;
-            currentMonth: string;
-            thisYear: string;
+        shortcuts?: {
+            today?: string;
+            tomorrow?: string;
+            thisWeekend?: string;
+            thisWeek?: string;
+            currentMonth?: string;
+            thisYear?: string;
         };
-        footer: {
-            apply: string;
-            cancel: string;
+        footer?: {
+            apply?: string;
+            cancel?: string;
+        };
+        session?: {
+            morning?: string;
+            afternoon?: string;
+            evening?: string;
+            night?: string;
         };
     };
     modelValue: [Date, Date] | {

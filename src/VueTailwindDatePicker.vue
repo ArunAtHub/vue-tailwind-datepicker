@@ -27,6 +27,11 @@ import {
   watchEffect,
 } from 'vue'
 import { localesMap } from './utils'
+import {
+  resolveClearLabel,
+  resolveSessionLabels,
+  resolveShortcutLabels,
+} from './localeLabels'
 import VtdHeader from './components/Header.vue'
 import VtdShortcut from './components/Shortcut.vue'
 import VtdCalendar from './components/Calendar.vue'
@@ -72,17 +77,23 @@ interface Props {
   weekdaysSize?: string
   weekNumber?: boolean
   options?: {
-    shortcuts: {
-      today: string,
-      tomorrow: string,
-      thisWeekend: string,
-      thisWeek: string,
-      currentMonth: string,
-      thisYear: string
+    shortcuts?: {
+      today?: string,
+      tomorrow?: string,
+      thisWeekend?: string,
+      thisWeek?: string,
+      currentMonth?: string,
+      thisYear?: string
     }
-    footer: {
-      apply: string
-      cancel: string
+    footer?: {
+      apply?: string
+      cancel?: string
+    }
+    session?: {
+      morning?: string
+      afternoon?: string
+      evening?: string
+      night?: string
     }
   }
   modelValue:
@@ -120,18 +131,12 @@ const props = withDefaults(defineProps<Props>(), {
   weekdaysSize: 'short',
   weekNumber: false,
   options: () => ({
-    shortcuts: {
-      today: 'Today',
-      tomorrow: 'Tomorrow',      
-      thisWeekend: 'This Weekend',
-      thisWeek: 'This Week',
-      currentMonth: 'This Month',
-      thisYear: 'This Year'
-    },
+    shortcuts: {},
     footer: {
       apply: 'Apply',
-      cancel: 'Cancel',
+      cancel: '',
     },
+    session: {},
   }),
   modelValue: () => [new Date(), new Date()],
   sessionValue: () => ({
@@ -177,6 +182,16 @@ watch(() => props.sessionValue, (newValue) => {
     sessionData.night = newValue.night
   }
 }, { deep: true })
+
+const shortcutI18n = computed(() =>
+  resolveShortcutLabels(props.i18n, props.options?.shortcuts),
+)
+const sessionLabels = computed(() =>
+  resolveSessionLabels(props.i18n, props.options?.session),
+)
+const clearLabel = computed(() =>
+  resolveClearLabel(props.i18n, props.options?.footer?.cancel),
+)
 
 const {
   useCurrentDate,
@@ -247,8 +262,6 @@ function setToToday(close?: (ref?: Ref | HTMLElement) => void) {
 
   emitShortcut(s, e)
   resetSessionData()
-  if (close)
-    close()
 }
 
 const weeks = computed(() => datepicker.value.weeks)
@@ -717,6 +730,10 @@ function setDate(date: Dayjs, close?: (ref?: Ref | HTMLElement) => void) {
           datepicker.value.previous = s
           datepicker.value.next = e
         }
+
+        const start = s.format(props.formatter.date)
+        const end = e.format(props.formatter.date)
+        emitRangeValue(start, end)
         force()
       }
     }
@@ -1171,62 +1188,58 @@ function forceEmit(s: string, e: string) {
     datepicker.value.next = datepicker.value.previous.add(1, 'month')
 }
 
-function emitShortcut(s: string, e: string) {
-  if (asRange()) {
-    if (props.autoApply) {
-      if (Array.isArray(props.modelValue)) {
-        emit('update:modelValue', [s, e])
-      }
-      else if (typeof props.modelValue === 'object') {
-        const obj: Record<string, string> = {}
-        const [start, end] = Object.keys(props.modelValue)
-        obj[start] = s
-        obj[end] = e
-        emit('update:modelValue', obj)
-      }
-      else {
-        emit(
-          'update:modelValue',
-          useToValueFromArray(
-            {
-              previous: dayjs(s, props.formatter.date, true),
-              next: dayjs(e, props.formatter.date, true),
-            },
-            props,
-          ),
-        )
-      }
-      pickerValue.value = `${s}${props.separator}${e}`
-    }
-    else {
-      applyValue.value = [
-        dayjs(s, props.formatter.date, true),
-        dayjs(e, props.formatter.date, true),
-      ]
-    }
+function emitRangeValue(s: string, e: string) {
+  if (Array.isArray(props.modelValue)) {
+    emit('update:modelValue', [s, e])
+  }
+  else if (typeof props.modelValue === 'object') {
+    const obj: Record<string, string> = {}
+    const [start, end] = Object.keys(props.modelValue)
+    obj[start] = s
+    obj[end] = e
+    emit('update:modelValue', obj)
   }
   else {
-    if (props.autoApply) {
-      if (Array.isArray(props.modelValue)) {
-        emit('update:modelValue', [s])
-      }
-      else if (typeof props.modelValue === 'object') {
-        const obj: Record<string, string> = {}
-        const [start] = Object.keys(props.modelValue)
-        obj[start] = s
-        emit('update:modelValue', obj)
-      }
-      else {
-        emit('update:modelValue', s)
-      }
-      pickerValue.value = s
+    emit(
+      'update:modelValue',
+      useToValueFromArray(
+        {
+          previous: dayjs(s, props.formatter.date, true),
+          next: dayjs(e, props.formatter.date, true),
+        },
+        props,
+      ),
+    )
+  }
+  pickerValue.value = `${s}${props.separator}${e}`
+}
+
+function emitShortcut(s: string, e: string) {
+  if (asRange()) {
+    emitRangeValue(s, e)
+    applyValue.value = [
+      dayjs(s, props.formatter.date, true),
+      dayjs(e, props.formatter.date, true),
+    ]
+  }
+  else {
+    if (Array.isArray(props.modelValue)) {
+      emit('update:modelValue', [s])
+    }
+    else if (typeof props.modelValue === 'object') {
+      const obj: Record<string, string> = {}
+      const [start] = Object.keys(props.modelValue)
+      obj[start] = s
+      emit('update:modelValue', obj)
     }
     else {
-      applyValue.value = [
-        dayjs(s, props.formatter.date, true),
-        dayjs(e, props.formatter.date, true),
-      ]
+      emit('update:modelValue', s)
     }
+    pickerValue.value = s
+    applyValue.value = [
+      dayjs(s, props.formatter.date, true),
+      dayjs(e, props.formatter.date, true),
+    ]
   }
   forceEmit(s, e)
 }
@@ -1241,7 +1254,6 @@ function setToThisWeekend(close?: (ref?: Ref | HTMLElement) => void) {
   const s = saturday.format(props.formatter.date);
   const e = sunday.format(props.formatter.date);
   emitShortcut(s, e);
-  if (close) close();
 }
 
 function setToThisWeek(close?: (ref?: Ref | HTMLElement) => void) {
@@ -1252,25 +1264,19 @@ function setToThisWeek(close?: (ref?: Ref | HTMLElement) => void) {
   const s = sunday.format(props.formatter.date);
   const e = saturday.format(props.formatter.date);
   emitShortcut(s, e);
-  if (close) close();
 }
-
 
 function setToTomorrow(close?: (ref?: Ref | HTMLElement) => void) {
   const s = dayjs().add(1, 'day').format(props.formatter.date)
   const e = dayjs().add(1, 'day').format(props.formatter.date)
 
   emitShortcut(s, e)
-  if (close)
-    close()
 }
 
 function setToThisMonth(close?: (ref?: Ref | HTMLElement) => void) {
   const s = dayjs().date(1).format(props.formatter.date)
   const e = dayjs().date(dayjs().daysInMonth()).format(props.formatter.date)
   emitShortcut(s, e)
-  if (close)
-  close()
 }
 
 function setToThisYear(close?: (ref?: Ref | HTMLElement) => void) {
@@ -1280,7 +1286,6 @@ function setToThisYear(close?: (ref?: Ref | HTMLElement) => void) {
   const s = startOfYear.format(props.formatter.date);
   const e = endOfYear.format(props.formatter.date);
   emitShortcut(s, e);
-  if (close) close();
 }
 
 function setToCustomShortcut(
@@ -1292,8 +1297,6 @@ function setToCustomShortcut(
   const e = dayjs(dd).format(props.formatter.date)
 
   emitShortcut(s, e)
-  if (close)
-    close()
 }
 
 watch(
@@ -1553,7 +1556,7 @@ defineExpose({ clearPicker, resetSessionData })
               </div>
               <div class="flex flex-wrap lg:flex-nowrap">
                 <VtdShortcut v-if="props.shortcuts" :shortcuts="props.shortcuts" :as-range="asRange()"
-                  :as-single="props.asSingle" :i18n="props.options.shortcuts" :close="close" />
+                  :as-single="props.asSingle" :i18n="shortcutI18n" :close="close" />
                 <div class="relative flex flex-wrap sm:flex-nowrap p-1 w-full">
                   <div v-if="asRange() && !props.asSingle"
                     class="hidden h-full absolute inset-0 sm:flex justify-center items-center">
@@ -1604,7 +1607,7 @@ defineExpose({ clearPicker, resetSessionData })
                         id="check-morning"
                         v-model="sessionData.morning"
                       >
-                      <span>Show Morning</span>
+                      <span>{{ sessionLabels.morning }}</span>
                     </label>
                     <label for="check-afternoon" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
@@ -1613,7 +1616,7 @@ defineExpose({ clearPicker, resetSessionData })
                         id="check-afternoon"
                         v-model="sessionData.afternoon"
                       >                      
-                      <span>Show Afternoon</span>
+                      <span>{{ sessionLabels.afternoon }}</span>
                     </label>
                     <label for="check-evening" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
@@ -1622,7 +1625,7 @@ defineExpose({ clearPicker, resetSessionData })
                         id="check-evening"
                         v-model="sessionData.evening"
                       >                      
-                      <span>Show Evening</span>
+                      <span>{{ sessionLabels.evening }}</span>
                     </label>
                     <label for="check-night" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
@@ -1631,23 +1634,14 @@ defineExpose({ clearPicker, resetSessionData })
                         id="check-night"
                         v-model="sessionData.night"
                       >                      
-                      <span>Show Night</span>
+                      <span>{{ sessionLabels.night }}</span>
                     </label>
                   </div>
-                  <div class="mt-4 sm:flex sm:flex-row-reverse">                    
-                    <button type="button"
-                      class="away-apply-picker w-full cursor-pointer px-4 py-2 text-vtd-blue bg-white inline-flex justify-center rounded-md border border-vtd-orange text-sm mt-3 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm disabled:cursor-not-allowed"
-                      :disabled="props.asSingle
-                        ? applyValue.length < 1
-                        : applyValue.length < 2
-                        " 
-                      @click="applyDate(close)" 
-                      v-text="props.options.footer.apply"
-                    ></button>                      
+                  <div class="mt-4 sm:flex sm:flex-row-reverse">
                     <button type="button"
                       class="mt-3 away-cancel-picker w-full cursor-pointer px-4 py-2 text-vtd-blue bg-white inline-flex justify-center rounded-md border border-vtd-orange text-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm" 
                       @click="setToToday()" 
-                      v-text="'Reset'"
+                      v-text="clearLabel"
                     ></button>
                   </div>
                 </div>
@@ -1657,7 +1651,7 @@ defineExpose({ clearPicker, resetSessionData })
                   <div class="mt-1.5 sm:flex sm:flex-row-reverse">
                     <button type="button"
                       class="away-cancel-picker w-full transition ease-out duration-300 inline-flex justify-center rounded-md border border-vtd-secondary-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-vtd-secondary-700 hover:bg-vtd-secondary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vtd-primary-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm dark:ring-offset-vtd-secondary-800"
-                      @click="close()" v-text="props.options.footer.cancel" />
+                      @click="close()" v-text="clearLabel" />
                   </div>
                 </div>
               </div>
@@ -1672,7 +1666,7 @@ defineExpose({ clearPicker, resetSessionData })
       class="bg-white rounded-lg shadow-sm border border-black/[.1] px-3 py-3 sm:px-4 sm:py-4 dark:bg-vtd-secondary-800 dark:border-vtd-secondary-700/[1]">
       <div class="flex flex-wrap lg:flex-nowrap">
         <VtdShortcut v-if="props.shortcuts" :shortcuts="props.shortcuts" :as-range="asRange()" :as-single="props.asSingle"
-          :i18n="props.options.shortcuts" />
+          :i18n="shortcutI18n" />
         <div class="relative flex flex-wrap sm:flex-nowrap p-1 w-full">
           <div v-if="asRange() && !props.asSingle"
             class="hidden h-full absolute inset-0 sm:flex justify-center items-center">
@@ -1714,9 +1708,8 @@ defineExpose({ clearPicker, resetSessionData })
         <div class="mt-2 mx-2 py-1.5 border-t border-black/[.1] dark:border-vtd-secondary-700/[1]">
           <div class="mt-1.5 sm:flex sm:flex-row-reverse">
             <button type="button"
-              class="away-apply-picker w-full transition ease-out duration-300 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-vtd-primary-600 font-medium text-white hover:bg-vtd-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vtd-primary-500 sm:ml-3 sm:w-auto sm:text-sm dark:ring-offset-vtd-secondary-800 disabled:cursor-not-allowed"
-              :disabled="props.asSingle ? applyValue.length < 1 : applyValue.length < 2
-                " @click="applyDate()" v-text="props.options.footer.apply" />
+              class="away-cancel-picker w-full transition ease-out duration-300 inline-flex justify-center rounded-md border border-vtd-secondary-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-vtd-secondary-700 hover:bg-vtd-secondary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vtd-primary-500 sm:ml-3 sm:w-auto sm:text-sm dark:ring-offset-vtd-secondary-800"
+              @click="setToToday()" v-text="clearLabel" />
           </div>
         </div>
       </div>

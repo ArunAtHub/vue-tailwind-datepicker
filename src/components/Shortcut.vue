@@ -56,7 +56,7 @@ const withShortcut = computed(() => {
         <a
           href="#"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToCustomShortcut(item, close)" v-text="item.label"
+          @click.prevent="setToCustomShortcut(item)" v-text="item.label"
         />
       </li>
     </ol>
