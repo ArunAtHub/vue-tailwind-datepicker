@@ -53,10 +53,10 @@ const withShortcut = computed(() => {
       style=" display: flex; flex-direction: column; justify-content: space-around;"
     >
       <li v-for="(item, i) in withShortcut" :key="i">
-        <a
-          href="#"
+        <button
+          type="button"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToCustomShortcut(item, close)" v-text="item.label"
+          @click="setToCustomShortcut(item, close)" v-text="item.label"
         />
       </li>
     </ol>
@@ -66,13 +66,13 @@ const withShortcut = computed(() => {
       style=" display: flex; flex-direction: column; justify-content: space-around;"
     >
       <li>
-        <a
-          href="#"
+        <button
+          type="button"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToToday(close)"
+          @click="setToToday(close)"
         >
           {{ props.i18n.today }}
-        </a>
+        </button>
       </li>
       <!-- <li>
         <a
@@ -84,49 +84,49 @@ const withShortcut = computed(() => {
         </a>
       </li> -->
       <li>
-        <a
-          href="#"
+        <button
+          type="button"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToTomorrow(close)"
+          @click="setToTomorrow(close)"
         >
           {{ props.i18n.tomorrow }}
-        </a>
+        </button>
       </li>
       <li>
-        <a
-          href="#"
+        <button
+          type="button"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisWeekend(close)"
+          @click="setToThisWeekend(close)"
         >
           {{ props.i18n.thisWeekend }}
-        </a>
+        </button>
       </li>
       <li>
-        <a
-          href="#"
+        <button
+          type="button"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisWeek(close)"
+          @click="setToThisWeek(close)"
         >
           {{ props.i18n.thisWeek }}
-        </a>
+        </button>
       </li>           
       <li>
-        <a
-          href="#"
+        <button
+          type="button"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisMonth(close)"
+          @click="setToThisMonth(close)"
         >
           {{ props.i18n.currentMonth }}
-        </a>
+        </button>
       </li>
       <li>
-        <a
-          href="#"
+        <button
+          type="button"
           class="vtd-shortcuts text-center block text-sm px-5 py-2 sm:leading-4 whitespace-nowrap rounded-sm text-vtd-dark-blue transition-colors hover:bg-vtd-medium-gray focus:bg-vtd-medium-gray"
-          @click.prevent="setToThisYear(close)"
+          @click="setToThisYear(close)"
         >
           {{ props.i18n.thisYear }}
-        </a>
+        </button>
       </li>     
     </ol>
   </div>
