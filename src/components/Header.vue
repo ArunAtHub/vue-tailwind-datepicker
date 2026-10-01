@@ -23,7 +23,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="flex justify-between items-center px-2 py-1.5">
+  <div class="flex justify-between items-center px-1 py-1">
     <div class="shrink-0">      
         <button
           v-show="panel.calendar || panel.year"

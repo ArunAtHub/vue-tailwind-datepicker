@@ -1560,20 +1560,19 @@ defineExpose({ clearPicker, resetSessionData })
           <div ref="VtdRef"
             class="fixed inset-0 z-50 overflow-y-auto sm:overflow-visible sm:static sm:z-auto bg-white dark:bg-vtd-secondary-800 sm:rounded-lg shadow-sm">
             <div
-              class="vtd-datepicker static sm:relative w-full bg-white sm:rounded-lg sm:shadow-sm border-0 sm:border border-black/[.1] px-3 py-3 sm:px-4 sm:py-4 lg:p-6 dark:bg-vtd-secondary-800 dark:border-vtd-secondary-700/[1]"
+              class="vtd-datepicker static sm:relative w-full bg-white sm:rounded-lg sm:shadow-sm border-0 sm:border border-black/[.1] px-3 py-3 dark:bg-vtd-secondary-800 dark:border-vtd-secondary-700/[1]"
               :class="getAbsoluteClass(open)">
               <div @click="close()" class="text-vtd-orange absolute cursor-pointer top-3 right-3">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 6l12 12M18 6l-12 12"/>
                 </svg>
               </div>
-              <div class="flex flex-wrap lg:flex-nowrap">
+              <div class="vtd-calendars">
                 <VtdShortcut v-if="props.shortcuts" :shortcuts="props.shortcuts" :as-range="asRange()"
                   :as-single="props.asSingle" :i18n="shortcutI18n" :close="close" />
-                <div class="relative p-1 w-full">
-                  <div class="relative w-full lg:w-80">
+                <div class="vtd-month-panel">
                     <VtdHeader :panel="panel.previous" :calendar="calendar.previous" />
-                    <div class="px-0.5 sm:px-2">
+                    <div class="px-0.5">
                       <VtdMonth v-show="panel.previous.month" :months="months"
                         @update-month="calendar.previous.setMonth" />
                       <VtdYear v-show="panel.previous.year" :years="calendar.previous.years()"
@@ -1584,11 +1583,27 @@ defineExpose({ clearPicker, resetSessionData })
                           :week-number="weekNumber" @update-date="(date) => setDate(date, close)" />
                       </div>
                     </div>
-                  </div>
+                </div>
+                <div
+                  v-if="asRange() && !props.asSingle"
+                  class="vtd-month-panel vtd-month-panel--next"
+                >
+                    <VtdHeader :panel="panel.next" :calendar="calendar.next" />
+                    <div class="px-0.5">
+                      <VtdMonth v-show="panel.next.month" :months="months"
+                        @update-month="calendar.next.setMonth" />
+                      <VtdYear v-show="panel.next.year" :years="calendar.next.years()"
+                        @update-year="calendar.next.setYear" />
+                      <div v-show="panel.next.calendar">
+                        <VtdWeek :weeks="weeks" />
+                        <VtdCalendar :calendar="calendar.next" :weeks="weeks" :as-range="asRange()"
+                          :week-number="weekNumber" @update-date="(date) => setDate(date, close)" />
+                      </div>
+                    </div>
                 </div>
               </div>
               <div v-if="!props.autoApply">
-                <div class="pt-4 border-t border-black/[.1]">
+                <div class="pt-2 border-t border-black/[.1]">
                   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:flex justify-end gap-4">
                     <label for="check-morning" class="item clickable text-vtd-blue text-sm cursor-pointer rounded-md border border-vtd-orange py-2 px-4 flex items-center gap-[6px]">
                       <input 
@@ -1657,14 +1672,13 @@ defineExpose({ clearPicker, resetSessionData })
   </Popover>
   <div v-else-if="displayDatepicker" class="flex">
     <div
-      class="bg-white rounded-lg shadow-sm border border-black/[.1] px-3 py-3 sm:px-4 sm:py-4 dark:bg-vtd-secondary-800 dark:border-vtd-secondary-700/[1]">
-      <div class="flex flex-wrap lg:flex-nowrap">
+      class="vtd-datepicker bg-white rounded-lg shadow-sm border border-black/[.1] px-3 py-3 dark:bg-vtd-secondary-800 dark:border-vtd-secondary-700/[1]">
+      <div class="vtd-calendars">
         <VtdShortcut v-if="props.shortcuts" :shortcuts="props.shortcuts" :as-range="asRange()" :as-single="props.asSingle"
           :i18n="shortcutI18n" />
-        <div class="relative p-1 w-full">
-          <div class="relative w-full lg:w-80">
+        <div class="vtd-month-panel">
             <VtdHeader :panel="panel.previous" :calendar="calendar.previous" />
-            <div class="px-0.5 sm:px-2">
+            <div class="px-0.5">
               <VtdMonth v-show="panel.previous.month" :months="months" @update-month="calendar.previous.setMonth" />
               <VtdYear v-show="panel.previous.year" :years="calendar.previous.years()"
                 @update-year="calendar.previous.setYear" />
@@ -1674,7 +1688,22 @@ defineExpose({ clearPicker, resetSessionData })
                   @update-date="(date) => setDate(date)" />
               </div>
             </div>
-          </div>
+        </div>
+        <div
+          v-if="asRange() && !props.asSingle"
+          class="vtd-month-panel vtd-month-panel--next"
+        >
+            <VtdHeader :panel="panel.next" :calendar="calendar.next" />
+            <div class="px-0.5">
+              <VtdMonth v-show="panel.next.month" :months="months" @update-month="calendar.next.setMonth" />
+              <VtdYear v-show="panel.next.year" :years="calendar.next.years()"
+                @update-year="calendar.next.setYear" />
+              <div v-show="panel.next.calendar">
+                <VtdWeek :weeks="weeks" />
+                <VtdCalendar :calendar="calendar.next" :weeks="weeks" :as-range="asRange()" :week-number="weekNumber"
+                  @update-date="(date) => setDate(date)" />
+              </div>
+            </div>
         </div>
       </div>
       <div v-if="!props.autoApply">
@@ -1696,5 +1725,53 @@ defineExpose({ clearPicker, resetSessionData })
 
 .vtd-datepicker-overlay.open::before {
   @apply block opacity-50;
+}
+
+.vtd-datepicker {
+  background-color: #fff !important;
+}
+
+.vtd-calendars {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.vtd-month-panel {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Mobile: one month. Desktop: two months side-by-side. */
+.vtd-month-panel--next {
+  display: none !important;
+}
+
+@media (min-width: 1024px) {
+  .vtd-datepicker {
+    width: max-content !important;
+    max-width: none !important;
+  }
+
+  .vtd-calendars {
+    flex-wrap: nowrap !important;
+    gap: 0.75rem;
+  }
+
+  .vtd-month-panel,
+  .vtd-month-panel--next {
+    display: block !important;
+    width: 15rem !important;
+    flex: 0 0 15rem !important;
+  }
+}
+
+/* Selected/today chips stay orange — do not restore grey fills. */
+.vtd-datepicker .bg-vtd-medium-gray,
+.vtd-datepicker button.bg-vtd-medium-gray,
+.vtd-datepicker .bg-vtd-dark-blue\/10,
+.vtd-datepicker [class*="bg-vtd-dark-blue/10"] {
+  background-color: #ffedd5 !important;
 }
 </style>

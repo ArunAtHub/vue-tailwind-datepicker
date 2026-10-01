@@ -38,7 +38,7 @@ const atMouseOver = injectStrict(atMouseOverKey)
 </script>
 
 <template>
-  <div class="grid grid-cols-7 gap-y-0.5 my-1">
+  <div class="grid grid-cols-7 gap-y-0 my-0">
     <transition-group
       enter-from-class="opacity-0" enter-to-class="opacity-100"
       enter-active-class="transition-opacity ease-out duration-300"
@@ -64,7 +64,7 @@ const atMouseOver = injectStrict(atMouseOverKey)
           </transition>
           <button
             type="button"
-            class="vtd-datepicker-date relative w-[2.25rem] h-[2.25rem] flex justify-center items-center text-sm font-medium"
+            class="vtd-datepicker-date relative w-8 h-8 lg:w-[2rem] lg:h-[2rem] flex justify-center items-center text-xs lg:text-sm font-medium"
             :class="[
               datepickerClasses(date),
               asRange ? 'transition-all' : 'transition-colors',
