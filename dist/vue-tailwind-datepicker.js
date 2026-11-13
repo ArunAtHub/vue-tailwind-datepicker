@@ -1986,12 +1986,10 @@ const na = ["disabled", "placeholder"], oa = { class: "absolute inset-y-0 right-
           }), i)),
           month: d && d.format(t.formatter.month),
           year: d && d.year(),
-          years: () => Array.from(
-            {
-              length: 12
-            },
-            (i, x) => h.previous + x
-          ),
+          years: () => {
+            const start = c().year();
+            return [start, start + 1];
+          },
           onPrevious: () => {
             s.value.previous = d.subtract(1, "month"), r("clickPrev", s.value.previous);
           },
@@ -2047,12 +2045,10 @@ const na = ["disabled", "placeholder"], oa = { class: "absolute inset-y-0 right-
           }), i)),
           month: u && u.format(t.formatter.month),
           year: u && u.year(),
-          years: () => Array.from(
-            {
-              length: 12
-            },
-            (i, x) => h.next + x
-          ),
+          years: () => {
+            const start = c().year();
+            return [start, start + 1];
+          },
           onPrevious: () => {
             s.value.next = u.subtract(1, "month"), u.diff(d, "month") === 1 && (s.value.previous = d.subtract(1, "month")), r("clickRightPrev", s.value.next);
           },

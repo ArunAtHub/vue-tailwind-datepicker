@@ -320,12 +320,8 @@ const calendar = computed(() => {
       month: previous && previous.format(props.formatter.month),
       year: previous && previous.year(),
       years: () => {
-        return Array.from(
-          {
-            length: 12,
-          },
-          (v, k) => year.previous + k,
-        )
+        const startYear = dayjs().year()
+        return [startYear, startYear + 1]
       },
       onPrevious: () => {
         datepicker.value.previous = previous.subtract(1, 'month')
@@ -434,12 +430,8 @@ const calendar = computed(() => {
       month: next && next.format(props.formatter.month),
       year: next && next.year(),
       years: () => {
-        return Array.from(
-          {
-            length: 12,
-          },
-          (v, k) => year.next + k,
-        )
+        const startYear = dayjs().year()
+        return [startYear, startYear + 1]
       },
       onPrevious: () => {
         datepicker.value.next = next.subtract(1, 'month')
